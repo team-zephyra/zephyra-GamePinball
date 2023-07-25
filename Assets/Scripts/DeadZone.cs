@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class DeadZone : MonoBehaviour
 {
-    [SerializeField] private Transform spawnPosition;
-    [SerializeField] private Collider ballCollider;
+    public Transform spawnPosition;
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.collider == ballCollider)
+        if (other.gameObject.CompareTag("Player"))
         {
             other.transform.position = spawnPosition.position;
-        }
+        }  
     }
 }
