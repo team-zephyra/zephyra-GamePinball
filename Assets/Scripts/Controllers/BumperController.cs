@@ -6,18 +6,24 @@ public class BumperController : MonoBehaviour
 {
     public Collider bola;
     public float multiplier;
-    [SerializeField] private Color startColor;
+    [SerializeField] private Color _startColor;
 
-    private Renderer renderer;
-    private Animator animator;
+    private AudioManager _audioManager;
+    private Animator _animator;
+    private Renderer _renderer;
+    private VFXManager _VFXManager;
+    
 
     private void Start()
     {
-        renderer = GetComponent<Renderer>();
-        animator = GetComponent<Animator>();
+        _renderer = GetComponent<Renderer>();
+        _animator = GetComponent<Animator>();
 
-        startColor = Color.red;
-        renderer.material.color = startColor;
+        _startColor = Color.red;
+        _renderer.material.color = _startColor;
+
+        _audioManager = FindObjectOfType<AudioManager>();
+        _VFXManager = FindObjectOfType<VFXManager>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -28,25 +34,29 @@ public class BumperController : MonoBehaviour
             bolaRig.velocity *= multiplier;
 
             // Animasi
-            animator.SetTrigger("hit");
+            _animator.SetTrigger("hit");
 
-            if (renderer.material.color == Color.red)
+            if (_renderer.material.color == Color.red)
             {
                 SwitchColor(Color.yellow);
-            } else if (renderer.material.color == Color.yellow)
+            } else if (_renderer.material.color == Color.yellow)
             {
                 SwitchColor(Color.green);
-            } else if (renderer.material.color == Color.green)
+            } else if (_renderer.material.color == Color.green)
             {
                 SwitchColor(Color.red);
             }
+
+            // Play Sound FX on Collision
+            _audioManager.PlayBumpSFX(collision.transform.position);
+
+            // Play Particle Effect on Collision
+            _VFXManager.PlayVFX(collision.transform.position);
         }
     }
 
     private void SwitchColor(Color colorToSwitch)
     {
-        renderer.material.color = colorToSwitch;
+        _renderer.material.color = colorToSwitch;
     }
-
-
 }

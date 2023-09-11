@@ -4,8 +4,17 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+    private AudioManager audioManager;
+    private VFXManager VFXManager;
+
     [SerializeField] private float zRotation;
     private bool isCountdownStarted = false;
+
+    void Start()
+    {
+        audioManager = FindObjectOfType<AudioManager>();
+        VFXManager = FindObjectOfType<VFXManager>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -24,6 +33,10 @@ public class Coin : MonoBehaviour
     {
         if (other.gameObject.GetComponent<BallController>() != null)
         {
+            // Play Audio and Visual FX
+            audioManager.PlayBumpSFX(other.transform.position);
+            VFXManager.PlayVFX(other.transform.position);
+
             DestroyCoin();
         }    
     }
