@@ -27,4 +27,9 @@ public class DeadZone : MonoBehaviour
             other.transform.position = spawnPosition.position;
         }  
     }
+
+    public Transform GetSpawnPosition()
+    {
+        return spawnPosition;
+    }
 }

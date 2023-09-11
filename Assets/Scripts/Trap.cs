@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
+    private AudioManager audioManager;
     private DeadZone deadZone;
     private bool isCountdownStarted = false;
 
-    private void Start()
+    void Start()
     {
+        audioManager = FindObjectOfType<AudioManager>();
         deadZone = FindObjectOfType<DeadZone>();
     }
-    // Update is called once per frame
+
     void Update()
     {
         if (!isCountdownStarted)
@@ -25,7 +27,8 @@ public class Trap : MonoBehaviour
     {
         if (other.gameObject.GetComponent<BallController>() != null)
         {
-            other.transform.position = deadZone.spawnPosition.position;
+            other.transform.position = deadZone.GetSpawnPosition().position;
+            audioManager.PlayBombSFX(transform.position);
             DestroyTrap();
         }    
     }
