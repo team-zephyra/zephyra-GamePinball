@@ -8,6 +8,7 @@ public class DeadZone : MonoBehaviour
     [SerializeField] private Collider ballCollider;
     private VFXManager VFXManager;
     private AudioManager audioManager;
+    [SerializeField] private GameObject gameOverGO;
 
     void Start()
     {
@@ -17,14 +18,14 @@ public class DeadZone : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.collider == ballCollider)
         {
+            // Activate GameOverUI
+            gameOverGO.SetActive(true);
+
             // Play Audio and Visual FX
             audioManager.PlayBombSFX(other.transform.position);
             VFXManager.PlayVFX(other.transform.position);
-
-            // Reset Position to Spawn Position
-            other.transform.position = spawnPosition.position;
         }  
     }
 

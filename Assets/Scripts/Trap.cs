@@ -6,12 +6,15 @@ public class Trap : MonoBehaviour
 {
     private AudioManager audioManager;
     private DeadZone deadZone;
+    private ScoreManager scoreManager;
     private bool isCountdownStarted = false;
+    [SerializeField] private float score = -1;
 
     void Start()
     {
         audioManager = FindObjectOfType<AudioManager>();
         deadZone = FindObjectOfType<DeadZone>();
+        scoreManager = FindObjectOfType<ScoreManager>();
     }
 
     void Update()
@@ -30,6 +33,7 @@ public class Trap : MonoBehaviour
             other.transform.position = deadZone.GetSpawnPosition().position;
             audioManager.PlayBombSFX(transform.position);
             DestroyTrap();
+            scoreManager.AddScore(score);
         }    
     }
 

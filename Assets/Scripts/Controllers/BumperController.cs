@@ -12,6 +12,9 @@ public class BumperController : MonoBehaviour
     private Animator _animator;
     private Renderer _renderer;
     private VFXManager _VFXManager;
+    private ScoreManager _scoreManager;
+    
+    [SerializeField] private float score = 1;
     
 
     private void Start()
@@ -24,6 +27,7 @@ public class BumperController : MonoBehaviour
 
         _audioManager = FindObjectOfType<AudioManager>();
         _VFXManager = FindObjectOfType<VFXManager>();
+        _scoreManager = FindObjectOfType<ScoreManager>();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -52,6 +56,9 @@ public class BumperController : MonoBehaviour
 
             // Play Particle Effect on Collision
             _VFXManager.PlayVFX(collision.transform.position);
+
+            // Add score
+            _scoreManager.AddScore(score);
         }
     }
 

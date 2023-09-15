@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class SwitchController : MonoBehaviour
 {
@@ -16,10 +17,15 @@ public class SwitchController : MonoBehaviour
     [SerializeField] private Material onMaterial;
     private Renderer switchRenderer;
     private SwitchState state;
+    private ScoreManager scoreManager;
+
+    [SerializeField] private float score = 1;
 
     private void Start()
     {
         switchRenderer = GetComponent<Renderer>();
+        scoreManager = FindObjectOfType<ScoreManager>();
+
         Set(false);
 
         StartCoroutine(BlinkTimerStart(5));
@@ -89,6 +95,7 @@ public class SwitchController : MonoBehaviour
         } else // From OFF to ON
         {
             Set(true);
+            scoreManager.AddScore(score);
         }
     }
 }
